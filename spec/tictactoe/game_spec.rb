@@ -134,7 +134,10 @@ describe TicTacToe::Game do
     end
 
     context 'when the position is taken' do
-      it 'ignores the move'
+      it 'ignores the move' do
+        game_after_move = game.make_move(0)
+        expect(game_after_move).to eq game_after_move.make_move(0)
+      end
     end
   end
 
@@ -159,7 +162,7 @@ describe TicTacToe::Game do
   end
 
   describe 'knowing whether the game is over' do
-    context 'whenthere are positions left and there is no winner' do
+    context 'when there are positions left and there is no winner' do
       it 'is not over' do
         game_after_move = game.make_move(0)
         expect(game_after_move).not_to be_over
