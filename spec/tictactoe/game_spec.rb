@@ -1,12 +1,11 @@
 module TicTacToe
   class Board
     def initialize(players, players_positions = [[], []])
-      @player1, @player2 = players
-      @moves = { @player1 => players_positions[0], @player2 => players_positions[1] }
+      @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
     end
 
     def empty?
-      @moves[@player1].empty? && @moves[@player2].empty?
+      @moves.values.all?(&:empty?)
     end
 
     def take_position(player, position)
@@ -28,8 +27,8 @@ module TicTacToe
 
   class Game
     def initialize(board = nil, players)
-      @players = players
       @board = board || Board.new(players)
+      @players = players
     end
 
     def has_an_empty_board?
