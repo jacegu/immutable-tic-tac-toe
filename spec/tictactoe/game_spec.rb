@@ -21,6 +21,7 @@ module TicTacToe
     end
 
     def take_position(player, position)
+      return self unless VALID_POSITIONS.include?(position)
       Board.new(@positions.dup.tap { |p| p[position] = player })
     end
 
