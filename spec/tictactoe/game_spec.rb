@@ -1,12 +1,20 @@
+require 'set'
+
 module TicTacToe
 
   class Board
+    POSITIONS = Set.new(0..8)
+
     def initialize(players, players_positions = [[], []])
       @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
     end
 
     def empty?
       @moves.values.all?(&:empty?)
+    end
+
+    def full?
+      POSITIONS == Set.new(@moves.values.flatten)
     end
 
     def take_position(player, position)
@@ -37,7 +45,7 @@ module TicTacToe
     end
 
     def over?
-      winner
+      !winner.nil? || @board.full?
     end
 
     def make_move(position)
