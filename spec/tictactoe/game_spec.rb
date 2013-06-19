@@ -51,5 +51,19 @@ describe TicTacToe::Game do
     context 'when the move is invalid' do
       it 'does something about it'
     end
+
+    context 'when the game is over' do
+    end
   end
+
+  context 'knowing who is the winner' do
+    context 'when there is a winner' do
+      it 'returns the player who won' do
+        moves = [0,3,1,4,2]
+        moves.each { |position| game.make_move(position) }
+        expect(game.winner).to be player1
+      end
+    end
+  end
+
 end
