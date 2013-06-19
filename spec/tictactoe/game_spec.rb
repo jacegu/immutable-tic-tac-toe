@@ -1,11 +1,12 @@
 module TicTacToe
   class Game
-    def initialize(players)
+    def initialize(players, moves = [])
       @players = players
+      @moves = moves
     end
 
     def has_an_empty_board?
-      true
+      @moves.empty?
     end
 
     def next_turn_player
@@ -13,7 +14,7 @@ module TicTacToe
     end
 
     def make_move(position)
-      Game.new(@players.reverse)
+      Game.new(@players.reverse, @moves << position)
     end
   end
 end
