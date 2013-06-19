@@ -41,9 +41,7 @@ module TicTacToe
     end
 
     def make_move(position)
-      current_player = @players.first
-      @board = @board.take_position(current_player, position)
-      Game.new(@board, @players.reverse)
+      Game.new(@board.take_position(@players.first, position), @players.reverse)
     end
 
     def winner
