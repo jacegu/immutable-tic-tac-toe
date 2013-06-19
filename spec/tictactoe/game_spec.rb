@@ -16,6 +16,10 @@ module TicTacToe
     def make_move(position)
       Game.new(@players.reverse, @moves << position)
     end
+
+    def winner
+      @players[0]
+    end
   end
 end
 
