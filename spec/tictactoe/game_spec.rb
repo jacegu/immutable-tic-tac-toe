@@ -1,12 +1,12 @@
 module TicTacToe
   class Game
-    def initialize(players, moves = [])
+    def initialize(players, moves = nil)
       @players = players
-      @moves = moves
+      @moves = moves || { @players[0] => [], @players[1] => [] }
     end
 
     def has_an_empty_board?
-      @moves.empty?
+      @moves[@players[0]].empty? && @moves[@players[1]].empty?
     end
 
     def next_turn_player
@@ -14,11 +14,20 @@ module TicTacToe
     end
 
     def make_move(position)
-      Game.new(@players.reverse, @moves << position)
+      current_player = @players.first
+      @moves[current_player] << position
+      Game.new(@players.reverse, @moves)
     end
 
     def winner
-      @players[0]
+      @moves.find { |(player, moves)| winner_move_in?(moves) }[0]
+    end
+
+    private
+
+    def winner_move_in?(moves)
+      winner_moves = [[0,1,2], [3,4,5], [0,3,6]]
+      (moves.combination(3).to_a & winner_moves).any?
     end
   end
 end
@@ -61,11 +70,21 @@ describe TicTacToe::Game do
   end
 
   context 'knowing who is the winner' do
-    context 'when there is a winner' do
-      it 'returns the player who won' do
+    context 'when player1 is the winner' do
+      it 'returns player1' do
         moves = [0,3,1,4,2]
-        moves.each { |position| game.make_move(position) }
-        expect(game.winner).to be player1
+        game_after_move = game
+        moves.each { |position| game_after_move = game_after_move.make_move(position) }
+        expect(game.winner).to eq player1
+      end
+    end
+
+    context 'when player2 is the winner' do
+      it 'returns player2' do
+        moves = [0,3,6,4,2,5]
+        game_after_move = game
+        moves.each { |position| game_after_move = game_after_move.make_move(position) }
+        expect(game.winner).to eq player2
       end
     end
   end
