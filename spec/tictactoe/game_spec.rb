@@ -1,7 +1,6 @@
 module TicTacToe
-  class Board
-    WINNER_MOVES = [[0,1,2], [3,4,5], [0,3,6]]
 
+  class Board
     def initialize(players, players_positions = [[], []])
       @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
     end
@@ -15,18 +14,15 @@ module TicTacToe
       Board.new(@moves.keys, @moves.values)
     end
 
-    def winner
-      @moves.find(->{[]}) { |_, moves| winner_move_in?(moves) }.first
-    end
-
-    private
-
-    def winner_move_in?(moves)
-      (moves.combination(3).to_a & WINNER_MOVES).any?
+    def moves_of(player)
+      @moves[player]
     end
   end
 
   class Game
+    NO_WINNER = ->{ nil }
+    WINNER_MOVES = [[0,1,2], [3,4,5], [0,3,6]]
+
     def initialize(board = nil, players)
       @board = board || Board.new(players)
       @players = players
@@ -45,9 +41,20 @@ module TicTacToe
     end
 
     def winner
-      @board.winner
+      @players.find(NO_WINNER) { |player| winner_move_in?(moves_of(player)) }
+    end
+
+    private
+
+    def winner_move_in?(moves)
+      (moves.combination(3).to_a & WINNER_MOVES).any?
+    end
+
+    def moves_of(player)
+      @board.moves_of(player)
     end
   end
+
 end
 
 A_PLAYER = 'a player'
