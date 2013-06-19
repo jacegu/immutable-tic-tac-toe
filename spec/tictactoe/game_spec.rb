@@ -26,7 +26,7 @@ module TicTacToe
   end
 
   class Game
-    def initialize(players, board = nil)
+    def initialize(board = nil, players)
       @players = players
       @board = board || Board.new(players)
     end
@@ -42,7 +42,7 @@ module TicTacToe
     def make_move(position)
       current_player = @players.first
       @board.take_position(current_player, position)
-      Game.new(@players.reverse, @board)
+      Game.new(@board, @players.reverse)
     end
 
     def winner
