@@ -5,6 +5,8 @@ module TicTacToe
   class Board
     POSITIONS = Set.new(0..8)
 
+    attr_reader :moves
+
     def initialize(players, players_positions = [[], []])
       @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
     end
@@ -25,11 +27,17 @@ module TicTacToe
     def moves_of(player)
       @moves[player]
     end
+
+    def ==(other)
+      @moves == other.moves
+    end
   end
 
   class Game
     NO_WINNER = ->{ nil }
     WINNER_MOVES = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
+
+    attr_reader :board
 
     def initialize(board = nil, players)
       @board = board || Board.new(players)
@@ -55,6 +63,10 @@ module TicTacToe
 
     def winner
       @players.find(NO_WINNER) { |player| winner_move_in?(moves_of(player)) }
+    end
+
+    def ==(other)
+      return @board == other.board
     end
 
     private
@@ -101,17 +113,15 @@ describe TicTacToe::Game do
 
     context 'when the game is over' do
       it 'ignores the move' do
-        game_over = game_with_moves(*0..8)
-        game_after_move = game_over.make_move(5)
-        expect(game_after_move).to be game_over
+        game_after_move = over_game.make_move(5)
+        expect(game_after_move).to eq over_game
       end
     end
 
     context 'when there is already a winner' do
       it 'ignores the move' do
-        won_game = game_with_moves(0,3,1,4,2)
         game_after_move = won_game.make_move(5)
-        expect(game_after_move).to be won_game
+        expect(game_after_move).to eq won_game
       end
     end
 
@@ -149,17 +159,23 @@ describe TicTacToe::Game do
 
     context 'when there is a winner before the board is full' do
       it 'is over' do
-        won_game = game_with_moves(0, 6, 1, 7, 2)
         expect(won_game).to be_over
       end
     end
 
     context 'when the board is full before a player wins' do
       it 'is over' do
-        over_game = game_with_moves(0,1,2,3,4,5,6,7,8)
         expect(over_game).to be_over
       end
     end
+  end
+
+  def won_game
+    game_with_moves(0, 6, 1, 7, 2)
+  end
+
+  def over_game
+    game_with_moves(0,1,2,3,4,5,6,7,8)
   end
 
   def game_with_moves(*moves)
