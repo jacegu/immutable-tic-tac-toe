@@ -1,7 +1,7 @@
 module TicTacToe
   class Game
     def initialize(players)
-      @player = player
+      @players = players
     end
 
     def has_an_empty_board?
@@ -9,7 +9,11 @@ module TicTacToe
     end
 
     def next_turn_player
-      @player
+      @players.first
+    end
+
+    def make_move(position)
+      @players.reverse!
     end
   end
 end
@@ -18,7 +22,7 @@ A_PLAYER = 'a player'
 OTHER_PLAYER = 'other player'
 
 describe TicTacToe::Game do
-  let(:game)     { described_class.new(player1, player2) }
+  let(:game)     { described_class.new([player1, player2]) }
   let(:player1)  { A_PLAYER }
   let(:player2)  { OTHER_PLAYER }
 
