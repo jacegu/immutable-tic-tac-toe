@@ -120,4 +120,20 @@ describe TicTacToe::Game do
     end
   end
 
+  describe 'knowing whether the game is over' do
+    context 'whenthere are positions left and there is no winner' do
+      it 'is not over' do
+        game_after_move = game.make_move(0)
+        expect(game_after_move).not_to be_over
+      end
+    end
+
+    context 'whenthere are no positions left' do
+      it 'is over'
+    end
+
+    context 'when there is a winner' do
+      it 'is over'
+    end
+  end
 end
