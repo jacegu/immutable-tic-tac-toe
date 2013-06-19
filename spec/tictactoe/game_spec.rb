@@ -29,7 +29,7 @@ module TicTacToe
 
   class Game
     NO_WINNER = ->{ nil }
-    WINNER_MOVES = [[0,1,2], [3,4,5], [0,3,6]]
+    WINNER_MOVES = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 
     def initialize(board = nil, players)
       @board = board || Board.new(players)
@@ -102,26 +102,23 @@ describe TicTacToe::Game do
       it 'does something about it'
     end
 
-    context 'when the game is over' do
+    context 'when there is already a winner' do
+    end
+
+    context 'when the position does not exist' do
     end
   end
 
   context 'knowing who is the winner' do
     context 'when player1 is the winner' do
       it 'returns player1' do
-        moves = [0,3,1,4,2]
-        game_after_move = game
-        moves.each { |position| game_after_move = game_after_move.make_move(position) }
-        expect(game.winner).to eq player1
+        expect(game_with_moves(0,3,1,4,2).winner).to eq player1
       end
     end
 
     context 'when player2 is the winner' do
       it 'returns player2' do
-        moves = [0,3,6,4,2,5]
-        game_after_move = game
-        moves.each { |position| game_after_move = game_after_move.make_move(position) }
-        expect(game.winner).to eq player2
+        expect(game_with_moves(0, 3, 6, 4, 2, 5).winner).to eq player2
       end
     end
 
@@ -142,16 +139,20 @@ describe TicTacToe::Game do
 
     context 'when there is a winner before the board is full' do
       it 'is over' do
-        won_game = game.make_move(0).make_move(6).make_move(1).make_move(7).make_move(2)
+        won_game = game_with_moves(0, 6, 1, 7, 2)
         expect(won_game).to be_over
       end
     end
 
     context 'when the board is full before a player wins' do
       it 'is over' do
-        over_game = (0..8).inject(game) { |game, position| game.make_move(position) }
+        over_game = game_with_moves(0,1,2,3,4,5,6,7,8)
         expect(over_game).to be_over
       end
     end
+  end
+
+  def game_with_moves(*moves)
+    moves.inject(game) { |game, position| game.make_move(position) }
   end
 end
