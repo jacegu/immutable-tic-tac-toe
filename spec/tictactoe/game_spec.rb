@@ -4,7 +4,7 @@ module TicTacToe
 
   class Board
     VALID_POSITIONS = Set.new(0..8)
-    EMPTY_POSITIONS = [].fill(nil, 0..9)
+    EMPTY_POSITIONS = [].fill(nil, 0..8)
 
     attr_reader :positions
 
