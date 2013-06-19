@@ -1,3 +1,11 @@
+module TicTacToe
+  class Game
+    def has_an_empty_board?
+      true
+    end
+  end
+end
+
 describe TicTacToe::Game do
   it 'starts with an empty board' do
     game = described_class.new
