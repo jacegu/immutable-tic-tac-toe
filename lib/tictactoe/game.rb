@@ -5,7 +5,7 @@ module TicTacToe
     NO_WINNER = ->{ nil }
     WINNER_MOVES = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 
-    attr_reader :board
+    attr_reader :board, :players
 
     def initialize(board = nil, players)
       @board = board || Board.new
@@ -34,7 +34,7 @@ module TicTacToe
     end
 
     def ==(other)
-      return @board == other.board
+      return @board == other.board && @players == other.players
     end
 
     private
