@@ -132,11 +132,14 @@ describe TicTacToe::Game do
       end
     end
 
-    context 'whenthere are no positions left' do
-      it 'is over'
+    context 'when there is a winner' do
+      it 'is over' do
+        won_game = game.make_move(0).make_move(6).make_move(1).make_move(7).make_move(2)
+        expect(won_game).to be_over
+      end
     end
 
-    context 'when there is a winner' do
+    context 'whenthere are no positions left' do
       it 'is over'
     end
   end
