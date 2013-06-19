@@ -1,16 +1,27 @@
 module TicTacToe
   class Game
+    def initialize(player)
+      @player = player
+    end
+
     def has_an_empty_board?
       true
     end
   end
 end
 
+A_PLAYER = 'a player'
+
 describe TicTacToe::Game do
-  let(:game) { described_class.new }
+  let(:game)     { described_class.new(player1) }
+  let(:player1)  { A_PLAYER }
 
   it 'starts with an empty board' do
     expect(game).to have_an_empty_board
+  end
+
+  it 'gives the turn to player 1' do
+    expect(game.next_turn_player).to be player1
   end
 
   describe 'making a move' do
