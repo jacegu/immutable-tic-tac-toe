@@ -101,13 +101,18 @@ describe TicTacToe::Game do
 
     context 'when the game is over' do
       it 'ignores the move' do
-        game_over = game_with_moves(0,3,1,4,2)
+        game_over = game_with_moves(*0..8)
         game_after_move = game_over.make_move(5)
         expect(game_after_move).to be game_over
       end
     end
 
     context 'when there is already a winner' do
+      it 'ignores the move' do
+        won_game = game_with_moves(0,3,1,4,2)
+        game_after_move = won_game.make_move(5)
+        expect(game_after_move).to be won_game
+      end
     end
 
     context 'when the position does not exist' do
