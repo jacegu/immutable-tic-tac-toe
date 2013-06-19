@@ -13,7 +13,7 @@ module TicTacToe
     end
 
     def make_move(position)
-      @players.reverse!
+      Game.new(@players.reverse)
     end
   end
 end
@@ -37,8 +37,8 @@ describe TicTacToe::Game do
   describe 'making a move' do
     context 'when the move is valid' do
       it 'passes the turn to the next player' do
-        game.make_move(0)
-        expect(game.next_turn_player).to be player2
+        game_after_move = game.make_move(0)
+        expect(game_after_move.next_turn_player).to be player2
       end
 
       it 'knows marks the board position as taken'
