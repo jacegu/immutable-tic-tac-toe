@@ -1,9 +1,6 @@
-require 'set'
-
 module TicTacToe
 
   class Board
-    VALID_POSITIONS = Set.new(0..8)
     EMPTY_POSITIONS = [].fill(nil, 0..8)
 
     attr_reader :positions
@@ -24,8 +21,12 @@ module TicTacToe
       !@positions[position].nil?
     end
 
+    def valid?(position)
+      position >= 0 && position < @positions.length - 1
+    end
+
     def take_position(player, position)
-      return self unless VALID_POSITIONS.include?(position)
+      return self if !valid?(position)
       Board.new(@positions.dup.tap { |p| p[position] = player })
     end
 
