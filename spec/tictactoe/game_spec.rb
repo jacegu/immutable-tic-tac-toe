@@ -132,15 +132,18 @@ describe TicTacToe::Game do
       end
     end
 
-    context 'when there is a winner' do
+    context 'when there is a winner before the board is full' do
       it 'is over' do
         won_game = game.make_move(0).make_move(6).make_move(1).make_move(7).make_move(2)
         expect(won_game).to be_over
       end
     end
 
-    context 'whenthere are no positions left' do
-      it 'is over'
+    context 'when the board is full before a player wins' do
+      it 'is over' do
+        over_game = (0..8).inject(game) { |game, position| game.make_move(position) }
+        expect(over_game).to be_over
+      end
     end
   end
 end
