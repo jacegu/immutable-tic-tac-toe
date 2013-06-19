@@ -20,6 +20,10 @@ module TicTacToe
       @positions.none?(&:nil?)
     end
 
+    def taken?(position)
+      !@positions[position].nil?
+    end
+
     def take_position(player, position)
       return self unless VALID_POSITIONS.include?(position)
       Board.new(@positions.dup.tap { |p| p[position] = player })
@@ -58,7 +62,7 @@ module TicTacToe
     end
 
     def make_move(position)
-      return self if over?
+      return self if over? || @board.taken?(position)
       Game.new(@board.take_position(@players.first, position), @players.reverse)
     end
 
