@@ -7,8 +7,9 @@ module TicTacToe
 end
 
 describe TicTacToe::Game do
+  let(:game) { described_class.new }
+
   it 'starts with an empty board' do
-    game = described_class.new
     expect(game).to have_an_empty_board
   end
 
