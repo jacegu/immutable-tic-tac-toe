@@ -7,6 +7,10 @@ module TicTacToe
     def has_an_empty_board?
       true
     end
+
+    def next_turn_player
+      @player
+    end
   end
 end
 
