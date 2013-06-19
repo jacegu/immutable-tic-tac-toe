@@ -21,7 +21,6 @@ module TicTacToe
     end
 
     def take_position(player, position)
-      return self unless VALID_POSITIONS.include?(position)
       Board.new(@positions.dup.tap { |p| p[position] = player })
     end
 
@@ -127,6 +126,14 @@ describe TicTacToe::Game do
     end
 
     context 'when the position does not exist' do
+      it 'ignores the move' do
+        game_after_move = game.make_move(9)
+        expect(game_after_move).to eq game
+      end
+    end
+
+    context 'when the position is taken' do
+      it 'ignores the move'
     end
   end
 
