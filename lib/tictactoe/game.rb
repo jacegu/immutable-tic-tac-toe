@@ -25,7 +25,7 @@ module TicTacToe
     end
 
     def make_move(position)
-      return self if over? || @board.taken?(position)
+      return self if over? || @board.taken?(position) || !@board.valid?(position)
       Game.new(@board.take_position(@players.first, position), @players.reverse)
     end
 
