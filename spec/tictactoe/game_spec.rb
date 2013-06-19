@@ -36,6 +36,10 @@ module TicTacToe
       @players.first
     end
 
+    def over?
+      winner
+    end
+
     def make_move(position)
       Game.new(@board.take_position(@players.first, position), @players.reverse)
     end
