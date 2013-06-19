@@ -41,7 +41,10 @@ describe TicTacToe::Game do
         expect(game_after_move.next_turn_player).to be player2
       end
 
-      it 'knows marks the board position as taken'
+      it 'knows marks the board position as taken' do
+        game_after_move = game.make_move(0)
+        expect(game_after_move).not_to have_an_empty_board
+      end
     end
 
     context 'when the move is invalid' do
