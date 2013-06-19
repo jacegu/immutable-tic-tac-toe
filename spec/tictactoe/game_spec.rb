@@ -1,5 +1,7 @@
 module TicTacToe
   class Board
+    WINNER_MOVES = [[0,1,2], [3,4,5], [0,3,6]]
+
     def initialize(players, players_positions = [[], []])
       @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
     end
@@ -14,14 +16,13 @@ module TicTacToe
     end
 
     def winner
-      @moves.find(->{[]}) { |(player, moves)| winner_move_in?(moves) }.first
+      @moves.find(->{[]}) { |_, moves| winner_move_in?(moves) }.first
     end
 
     private
 
     def winner_move_in?(moves)
-      winner_moves = [[0,1,2], [3,4,5], [0,3,6]]
-      (moves.combination(3).to_a & winner_moves).any?
+      (moves.combination(3).to_a & WINNER_MOVES).any?
     end
   end
 
