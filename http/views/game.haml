@@ -66,7 +66,7 @@
           url:        '/move',
           method:     'PUT',
           data:       {'position': position},
-          error:      function() { alert('@jacegu is stupid'); },
+          error:      function() { alert('FAIL!'); },
           success:    processResult,
           complete:   bindBoard,
           beforeSend: unbindBoard
@@ -74,7 +74,6 @@
       };
 
       var processResult = function(data) {
-          console.log(data);
           currentPlayer = data.next_player;
           winner = data.winner;
           over = data.over;
