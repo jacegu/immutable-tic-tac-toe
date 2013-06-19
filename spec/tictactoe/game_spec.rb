@@ -1,22 +1,16 @@
 module TicTacToe
-  class Game
-    def initialize(players, moves = nil)
-      @players = players
-      @moves = moves || { @players[0] => [], @players[1] => [] }
+  class Board
+    def initialize(players)
+      @player1, @player2 = players
+      @moves = { @player1 => [], @player2 => [] }
     end
 
-    def has_an_empty_board?
-      @moves[@players[0]].empty? && @moves[@players[1]].empty?
+    def empty?
+      @moves[@player1].empty? && @moves[@player2].empty?
     end
 
-    def next_turn_player
-      @players.first
-    end
-
-    def make_move(position)
-      current_player = @players.first
-      @moves[current_player] << position
-      Game.new(@players.reverse, @moves)
+    def take_position(player, position)
+      @moves[player] << position
     end
 
     def winner
@@ -28,6 +22,31 @@ module TicTacToe
     def winner_move_in?(moves)
       winner_moves = [[0,1,2], [3,4,5], [0,3,6]]
       (moves.combination(3).to_a & winner_moves).any?
+    end
+  end
+
+  class Game
+    def initialize(players, board = nil)
+      @players = players
+      @board = board || Board.new(players)
+    end
+
+    def has_an_empty_board?
+      @board.empty?
+    end
+
+    def next_turn_player
+      @players.first
+    end
+
+    def make_move(position)
+      current_player = @players.first
+      @board.take_position(current_player, position)
+      Game.new(@players.reverse, @board)
+    end
+
+    def winner
+      @board.winner
     end
   end
 end
