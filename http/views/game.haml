@@ -1,0 +1,90 @@
+!!!
+%head
+  %title Tic Tac Toe
+  :css
+    table {
+      margin: 0 auto;
+      border-spacing: 5px;
+    }
+    td {
+      width: 160px;
+      height: 150px;
+      padding: 25px;
+      color: #888;
+      background: whitesmoke;
+      font-size: 40px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+-def symbol_for(position, default); return 'X' if position == :player1; return 'O' if position == :player2; default; end
+
+%body
+  %table
+    %tr
+      %td= symbol_for @positions[0], 0
+      %td= symbol_for @positions[1], 1
+      %td= symbol_for @positions[2], 2
+    %tr
+      %td= symbol_for @positions[3], 3
+      %td= symbol_for @positions[4], 4
+      %td= symbol_for @positions[5], 5
+    %tr
+      %td= symbol_for @positions[6], 6
+      %td= symbol_for @positions[7], 7
+      %td= symbol_for @positions[8], 8
+
+  %script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js")
+  :javascript
+      $(function() {
+        bindBoard()
+      });
+
+      var currentPlayer = "#{@current_player}";
+
+      var bindBoard = function() {
+        $('table td').click(function(evnt){
+          submitMove($(evnt.target).text());
+          markPosition(evnt.target);
+        });
+      };
+
+      var unbindBoard = function() {
+        $('table td').unbind('click');
+      };
+
+      var markPosition = function(element) {
+        if( currentPlayer == 'player1') {
+          $(element).text('X');
+        } else {
+          $(element).text('O');
+        }
+      };
+
+      var submitMove =  function(position) {
+        $.ajax({
+          url:        '/move',
+          method:     'PUT',
+          data:       {'position': position},
+          error:      function() { alert('@jacegu is stupid'); },
+          success:    processResult,
+          complete:   bindBoard,
+          beforeSend: unbindBoard
+        });
+      };
+
+      var processResult = function(data) {
+          console.log(data);
+          currentPlayer = data.next_player;
+          winner = data.winner;
+          over = data.over;
+          if ( winner == 'player1' || winner == 'player2' ) {
+            alert(winner + ' wins!');
+            window.location = '/new_game';
+            return
+          }
+          if (over) {
+            alert('No one won. Try again!');
+            window.location = '/new_game';
+          }
+      };
