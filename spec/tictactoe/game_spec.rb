@@ -1,6 +1,6 @@
 module TicTacToe
   class Game
-    def initialize(player)
+    def initialize(players)
       @player = player
     end
 
@@ -15,10 +15,12 @@ module TicTacToe
 end
 
 A_PLAYER = 'a player'
+OTHER_PLAYER = 'other player'
 
 describe TicTacToe::Game do
-  let(:game)     { described_class.new(player1) }
+  let(:game)     { described_class.new(player1, player2) }
   let(:player1)  { A_PLAYER }
+  let(:player2)  { OTHER_PLAYER }
 
   it 'starts with an empty board' do
     expect(game).to have_an_empty_board
@@ -30,7 +32,11 @@ describe TicTacToe::Game do
 
   describe 'making a move' do
     context 'when the move is valid' do
-      it 'knows who has the next turn'
+      it 'passes the turn to the next player' do
+        game.make_move(0)
+        expect(game.next_turn_player).to be player2
+      end
+
       it 'knows marks the board position as taken'
     end
 
