@@ -1,8 +1,8 @@
 module TicTacToe
   class Board
-    def initialize(players)
+    def initialize(players, players_positions = [[], []])
       @player1, @player2 = players
-      @moves = { @player1 => [], @player2 => [] }
+      @moves = { @player1 => players_positions[0], @player2 => players_positions[1] }
     end
 
     def empty?
@@ -11,6 +11,7 @@ module TicTacToe
 
     def take_position(player, position)
       @moves[player] << position
+      Board.new(@moves.keys, @moves.values)
     end
 
     def winner
@@ -41,7 +42,7 @@ module TicTacToe
 
     def make_move(position)
       current_player = @players.first
-      @board.take_position(current_player, position)
+      @board = @board.take_position(current_player, position)
       Game.new(@board, @players.reverse)
     end
 
