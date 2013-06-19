@@ -20,7 +20,7 @@ module TicTacToe
     end
 
     def winner
-      @moves.find { |(player, moves)| winner_move_in?(moves) }[0]
+      @moves.find(->{[]}) { |(player, moves)| winner_move_in?(moves) }.first
     end
 
     private
@@ -85,6 +85,12 @@ describe TicTacToe::Game do
         game_after_move = game
         moves.each { |position| game_after_move = game_after_move.make_move(position) }
         expect(game.winner).to eq player2
+      end
+    end
+
+    context 'when three is no winner' do
+      it 'returns nil (for now)' do
+        expect(game.winner).to be_nil
       end
     end
   end
