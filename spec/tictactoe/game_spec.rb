@@ -3,33 +3,34 @@ require 'set'
 module TicTacToe
 
   class Board
-    POSITIONS = Set.new(0..8)
+    VALID_POSITIONS = Set.new(0..8)
+    EMPTY_POSITIONS = [].fill(nil, 0..9)
 
-    attr_reader :moves
+    attr_reader :positions
 
-    def initialize(players, players_positions = [[], []])
-      @moves = { players[0] => players_positions[0], players[1] => players_positions[1] }
+    def initialize(positions = EMPTY_POSITIONS)
+      @positions = positions
     end
 
     def empty?
-      @moves.values.all?(&:empty?)
+      @positions.all?(&:nil?)
     end
 
     def full?
-      POSITIONS == Set.new(@moves.values.flatten)
+      @positions.none?(&:nil?)
     end
 
     def take_position(player, position)
-      @moves[player] << position
-      Board.new(@moves.keys, @moves.values)
+      return self unless VALID_POSITIONS.include?(position)
+      Board.new(@positions.dup.tap { |p| p[position] = player })
     end
 
     def moves_of(player)
-      @moves[player]
+      @positions.each_index.select { |i| @positions[i] == player }
     end
 
     def ==(other)
-      @moves == other.moves
+      @positions == other.positions
     end
   end
 
@@ -40,7 +41,7 @@ module TicTacToe
     attr_reader :board
 
     def initialize(board = nil, players)
-      @board = board || Board.new(players)
+      @board = board || Board.new
       @players = players
     end
 
