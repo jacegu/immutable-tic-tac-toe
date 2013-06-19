@@ -21,7 +21,7 @@ module TicTacToe
     end
 
     def valid?(position)
-      position >= 0 && position < @positions.length - 1
+      position >= 0 && position < @positions.length
     end
 
     def take_position(player, position)
