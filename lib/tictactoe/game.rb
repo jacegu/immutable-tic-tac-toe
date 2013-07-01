@@ -20,7 +20,7 @@ module TicTacToe
     end
 
     def over?
-      !winner.nil? || @board.full?
+      winner || @board.full?
     end
 
     def make_move(position)
