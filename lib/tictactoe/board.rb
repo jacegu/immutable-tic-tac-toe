@@ -25,7 +25,7 @@ module TicTacToe
     end
 
     def take_position(player, position)
-      Board.new(@positions.dup.tap { |p| p[position] = player })
+      self.class.new(@positions.dup.tap { |p| p[position] = player })
     end
 
     def moves_of(player)
