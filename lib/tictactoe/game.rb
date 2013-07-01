@@ -7,8 +7,8 @@ module TicTacToe
 
     attr_reader :board, :players
 
-    def initialize(board = nil, players)
-      @board = board || Board.new
+    def initialize(board = Board.new, players)
+      @board = board
       @players = players
     end
 
