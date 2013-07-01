@@ -2,7 +2,6 @@ require_relative 'board'
 
 module TicTacToe
   class Game
-    NO_WINNER = ->{ nil }
     WINNER_MOVES = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 
     attr_reader :board, :players
@@ -30,7 +29,7 @@ module TicTacToe
     end
 
     def winner
-      @players.find(NO_WINNER) { |player| winner_move_in?(moves_of(player)) }
+      @players.find { |player| winner_move_in?(moves_of(player)) }
     end
 
     def ==(other)
