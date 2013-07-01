@@ -24,12 +24,12 @@ module TicTacToe
       @positions.each_index.include?(position)
     end
 
-    def take_position(player, position)
-      self.class.new(@positions.dup.tap { |p| p[position] = player })
+    def mark_position(value, position)
+      self.class.new(@positions.dup.tap { |p| p[position] = value })
     end
 
-    def moves_of(player)
-      @positions.each_index.select { |i| @positions[i] == player }
+    def positions_with_value(value)
+      @positions.each_index.select { |i| @positions[i] == value }
     end
 
     def ==(other)

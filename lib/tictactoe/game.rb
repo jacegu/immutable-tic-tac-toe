@@ -26,7 +26,7 @@ module TicTacToe
 
     def make_move(position)
       return self if over? || @board.taken?(position) || !@board.valid?(position)
-      Game.new(@board.take_position(next_turn_player, position), @players.reverse)
+      Game.new(@board.mark_position(next_turn_player, position), @players.reverse)
     end
 
     def winner
@@ -44,7 +44,7 @@ module TicTacToe
     end
 
     def moves_of(player)
-      @board.moves_of(player)
+      @board.positions_with_value(player)
     end
   end
 end
