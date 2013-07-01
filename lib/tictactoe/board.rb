@@ -1,6 +1,6 @@
 module TicTacToe
   class Board
-    EMPTY_POSITIONS = [].fill(nil, 0..8)
+    EMPTY_POSITIONS = Array.new(9, nil)
 
     attr_reader :positions
 
